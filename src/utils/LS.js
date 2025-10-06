@@ -25,4 +25,4 @@ const setLSData = (id) => {
     }
 }
 
-export {setLSData};
+export {setLSData, getLSData};
