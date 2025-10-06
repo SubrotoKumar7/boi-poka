@@ -8,6 +8,7 @@ import Book from "../book/Book";
 const Read = () => {
     const allBooks = useLoaderData();
     const [read, setRead] = useState([]);
+    const [sort, setSort] = useState('');
     
     useEffect(()=> {
         const LSData = getLSData();
@@ -16,8 +17,30 @@ const Read = () => {
         setRead(readBook);
     }, [allBooks]);
 
+    const handleSort = (type) => {
+        setSort(type);
+
+        if(type === 'Pages'){
+            const sortByPage = [...read].sort((a,b) => a.totalPages - b.totalPages);
+            setRead(sortByPage);
+        }
+
+        if(type === 'Rating'){
+            const sortByRating = [...read].sort((a, b) => a.rating - b.rating);
+            setRead(sortByRating);
+        }
+    }
+
     return (
         <div className="w-11/12 mx-auto py-15">
+            <div className="dropdown dropdown-start mx-auto w-fit block my-2">
+                <div tabIndex={0} role="button" className="btn m-1">Sort ⬇️ {sort ? sort : ""}</div>
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                    <li onClick={()=> handleSort('Pages')}><a>Sort By Pages</a></li>
+                    <li onClick={()=> handleSort('Rating')}><a>Sort By Ratings</a></li>
+                </ul>
+            </div>
+
             <Tabs>
                 <TabList>
                 <Tab>Read Books</Tab>
