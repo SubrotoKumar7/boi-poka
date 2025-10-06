@@ -1,11 +1,18 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { setLSData } from '../../utils/LS';
+import { ToastContainer } from 'react-toastify';
 
 const BookDetails = () => {
     const {id} = useParams();
     const bookData = useLoaderData();
     const matchBook = bookData.find(book=> book.bookId === Number(id));
     const {author, bookName, category, image, publisher, rating, review, tags, totalPages, yearOfPublishing} = matchBook;
+
+    const handleReadList = (id) => {
+        setLSData(id);
+    }
+
     return (
         <div className='w-11/12 mx-auto flex justify-between gap-10 py-15'>
             <div className='flex-1/2'>
@@ -27,9 +34,10 @@ const BookDetails = () => {
                     <p className='flex justify-between w-1/2'>Rating: <span className='font-bold'>{rating}</span></p>
                 </div>
                 <div className='flex gap-3 my-4'>
-                    <button className="btn">Read</button>
+                    <button onClick={()=> handleReadList(id)} className="btn">Read</button>
                     <button className="btn btn-info text-white">Wishlist</button>
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );
